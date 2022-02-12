@@ -1,12 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h2>hello</h2>
-</body>
-</html>
+{% extends "base.html" %}
+<!--home title-->
+{% block title %}
+Blogs
+{% endblock %}
+{% block header%}
+<!--header-->
+<h1 class="text-center" style="font-family: 'Gloria Hallelujah', cursive ; color:blue">Welcome to Blogs....</h1>
+{% endblock%}
+
+
+{% block content %}
+<!--content-->
+<div class="card text-center">
+<div class="border-secondary mb-3" style="max-width: 100%;">
+    <div class="card-header">Create a Quote</div>
+    <div class="card-body text-secondary">
+      <h5 class="card-title">Feel free to comment on Quotes and write a Quote</h5>
+      <p class="card-text">“Happiness lies in virtuous activity, and perfect happiness lies in the best activity, which is contemplative”</p>
+      <button type="button" class="btn btn-primary">Primary</button>
+    </div>
+    <div class="card-header">
+        <div style="justify-content: space-between; font-family: 'Indie Flower', cursive;" class="d-flex">
+            <a href="">Comment<i class="fas fa-comment" style="margin-left: 8px;"></i></a> 
+            <a href="">Like <i class="fas fa-thumbs-up " style="margin-left: 8px;"></i></a> 
+            <a href="">Dislike<i class="fas fa-thumbs-down" style="margin-left: 8px;"></i></a> 
+        </div>
+        
+    
+    </div>
+</div>
+</div>
+{% endblock %}
