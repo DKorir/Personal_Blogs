@@ -1,4 +1,5 @@
 from .import db
+from werkzeug.security import generate_password_hash,check_password_hash
 #role
 class Role(db.Model):
     __tablename__ = 'roles'
@@ -16,7 +17,7 @@ class User(db.Model):
     id = db.Column(db.Integer,primary_key = True)
     username = db.Column(db.String(255))
     role_id = db.Column(db.Integer,db.ForeignKey('roles.id'))
-    pass_secure=db.Column(db.String(255))
+    pass_secure = db.Column(db.String(255))
 
 
     def __repr__(self):
