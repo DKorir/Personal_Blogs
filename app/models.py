@@ -2,6 +2,7 @@ from .import db
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import UserMixin
 from . import login_manager
+from datetime import datetime
 
 
 #role
@@ -25,6 +26,8 @@ class User(UserMixin,db.Model):
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
     pass_secure = db.Column(db.String(255))
+    quotes = db.relationship('Quote',backref='author', lazy='dynamic')
+    upvote = db.relationship('Upvote',backref='user',lazy='dynamic')
 
 
 
@@ -42,6 +45,96 @@ class User(UserMixin,db.Model):
 
     def __repr__(self):
         return f'User {self.username}'
+
+
+#quotes
+class Quote(db.Model):
+    __tablename__='quotes'
+    id = db.Column(db.Integer, primary_key = True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    posted = db.Column(db.DateTime,default=datetime.utcnow)
+    upvote = db.relationship('Upvote',backref='usr',lazy='dynamic')
+    downvote = db.relationship('Downvote',backref='usr',lazy='dynamic')
+    
+
+
+    def save_quote(self):
+        db.session.add(self)
+        db.session.commit()
+    @classmethod
+    def get_quotes(cls,id):
+        quotes = Quote.query.filter_by(user_id=id).all()
+        return quotes
+
+
+
+#comments
+class Comment(db.Model):
+    __tablename__ = 'comments' 
+    id = db.Column(db.Integer, primary_key = True)
+    comments = db.Column(db.Text())
+    quote_id = db.Column(db.Integer,db.ForeignKey('quotes.id'))
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
+    
+    def save_comment(self):
+        db.session.add(self)
+        db.session.commit()
+        
+    @classmethod
+    def get_comments(cls,quote_id):
+        comments = Comment.query.filter_by(quote_id=quote_id).all()
+
+        return comments
+
+
+    def __repr__(self):
+        return f'Comment{self.comments}'
+
+#upvote
+class Upvote(db.Model):
+    __tablename__ = 'upvotes'
+
+    id = db.Column(db.Integer,primary_key=True)
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
+    quote_id = db.Column(db.Integer,db.ForeignKey('quotes.id'))
+    
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_upvotes(cls,id):
+        upvote = Upvote.query.filter_by(quote_id=id).all()
+        return upvote
+
+
+    def __repr__(self):
+        return f'{self.user_id}:{self.quote_id}'
+
+#downvote
+class Downvote(db.Model):
+    __tablename__ = 'downvotes'
+
+    id = db.Column(db.Integer,primary_key=True)
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
+    quote_id = db.Column(db.Integer,db.ForeignKey('quotes.id'))
+    
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+    @classmethod
+    def get_downvotes(cls,id):
+        downvote = Downvote.query.filter_by(quote_id=id).all()
+        return downvote
+
+    def __repr__(self):
+        return f'{self.user_id}:{self.quote_id}'
+    
+
+
+
 
 @login_manager.user_loader
 def load_user(user_id):

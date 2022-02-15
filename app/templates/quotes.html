@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h1>Welcome to quotes</h1>
+</div>
+
+{% for items in quotes[::-1] %}
+
+<div class="container">
+  <div class="card text-center" style="width: 45%; height: 400px; float: left; margin: 17px;">
+    <!--header-->
+    <div class="card-header">
+      <h4 class="text-sm-left"><span style="height: 50px; width: 50px; background-color: black; color: white;border-radius: 50%; padding-left: 16px; padding-top: 12px;" class="fa fa-user"></span> Posted By: {{items.author.username}}</h4>
+
+    </div>
+      <!--body-->
+    <div class="card-body" style="height:300px;overflow-y: scroll;">
+      <h4 class="card-title">{{items.quote}}</h4>
+    </div>
+    <!--footer-->
+   
+           
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endfor %}
+{% endblock %}
