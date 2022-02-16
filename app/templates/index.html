@@ -22,10 +22,21 @@ Blogs
 <br>
 <br>
 <!--header-->
-<h1 class="text-center" style="font-family: 'Gloria Hallelujah', cursive ; color:blue">Welcome to Blogs....</h1>
+
 
 
 {% block content %}
+
+<div class="container">
+
+    <ul>
+        {% for quote in quote_api %}
+            <li>{{ quote_api.title}}</li>
+        {% endfor %}
+    </ul>
+
+
+<h1 class="text-center" style="font-family: 'Gloria Hallelujah', cursive ; color:blue">Welcome to Blogs....</h1>
 <!--content-->
 <div class="card text-center">
 <div class="border-secondary mb-3" style="max-width: 100%;">
@@ -41,10 +52,12 @@ Blogs
             <a href="">Comment<i class="fas fa-comment" style="margin-left: 8px;"></i></a> 
             <a href="">Like <i class="fas fa-thumbs-up " style="margin-left: 8px;"></i></a> 
             <a href="">Dislike<i class="fas fa-thumbs-down" style="margin-left: 8px;"></i></a> 
+            <button class="btn btn-danger"> <a href=""></a> Delete</button>
         </div>
         
     
     </div>
+</div>
 </div>
 </div>
 {% endblock %}

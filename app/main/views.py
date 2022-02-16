@@ -1,10 +1,11 @@
 from crypt import methods
-from flask import render_template,request,redirect,url_for,abort
+from flask import flash, render_template,request,redirect,url_for,abort
 from ..models import User,Quote,Upvote,Downvote,Comment
 from . import main
 from flask_login import login_required,current_user
 from .forms import QuoteForm, UpdateProfile,CommentForm
 from .. import db,photos
+from ..request import get_quotes_api
 
 # Views
 @main.route('/')
@@ -67,6 +68,7 @@ def new_quotes():
         quote=form.my_quotes.data
         new_quote=Quote(quote=quote,user_id=current_user.id)
         new_quote.save_quote()
+       
 
     return render_template('new_quote.html',quote_form=form)
 
@@ -127,3 +129,37 @@ def dislike(id):
     new_downvote = Downvote(user = current_user, quote_id=id)
     new_downvote.save()
     return redirect(url_for('main.quote_page'))
+
+
+#delete quote
+@main.route('/quotes/delete/<int:id>')
+@login_required
+def delete_quote(quote_id):
+    quote=Quote.query.get_or_404(quote_id)
+    if quote.author != current_user:
+        abort(403)
+        db.session.delete(quote)
+        db.session.commit()
+        flash('Your Quote has been deleted!','success')
+        return redirect(url_for('main.quote_page'))
+#subscribe
+@main.route("/subscribe")
+def subscribe():
+    return render_template('subscribe.html', title='Subscription')
+
+
+
+#api quote
+@main.route('/')
+def index_api():
+
+    '''
+    View root page function that returns the index page and its data
+    '''
+
+    # Getting popular movie
+    quotes_api = get_quotes_api('popular')
+    print(quotes_api)
+    title = 'Welcome to Random Quotes'
+    return render_template('index.html', title = title,popular = quotes_api)
+

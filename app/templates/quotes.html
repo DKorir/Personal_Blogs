@@ -2,6 +2,7 @@
 {% block content %}
 <div class="container">
     <h1>Welcome to quotes</h1>
+    <h2><a class="btn peach-gradient btn-lg text-center" href="{{url_for('main.new_quotes')}}"> Write a new pitch</a></h2>
 </div>
 
 {% for items in quotes[::-1] %}
@@ -21,7 +22,7 @@
    
            
 
-      </div>
+    </div>
     </div>
   </div>
 </div>

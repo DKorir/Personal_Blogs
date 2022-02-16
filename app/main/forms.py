@@ -1,9 +1,11 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField,TextAreaField,SubmitField
+from wtforms import StringField,TextAreaField,SubmitField,FileField
 from wtforms.validators import InputRequired
+from flask_wtf.file import FileAllowed
 #update profileform
 class UpdateProfile(FlaskForm):
     bio = TextAreaField('Tell us about you.',validators = [InputRequired()])
+    picture=FileField('Upload picture',validators=[FileAllowed(['jpg','png','jpeg'])])
     submit = SubmitField('Submit')
 #quotes form
 class QuoteForm(FlaskForm):

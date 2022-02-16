@@ -28,6 +28,7 @@ class User(UserMixin,db.Model):
     pass_secure = db.Column(db.String(255))
     quotes = db.relationship('Quote',backref='author', lazy='dynamic')
     upvote = db.relationship('Upvote',backref='user',lazy='dynamic')
+    comments = db.relationship('Comment',backref='usr', lazy='dynamic')
 
 
 
@@ -50,11 +51,15 @@ class User(UserMixin,db.Model):
 #quotes
 class Quote(db.Model):
     __tablename__='quotes'
+    
     id = db.Column(db.Integer, primary_key = True)
+    quote = db.Column(db.Text(),nullable = False)
+   
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     posted = db.Column(db.DateTime,default=datetime.utcnow)
     upvote = db.relationship('Upvote',backref='usr',lazy='dynamic')
     downvote = db.relationship('Downvote',backref='usr',lazy='dynamic')
+ 
     
 
 
@@ -132,6 +137,17 @@ class Downvote(db.Model):
     def __repr__(self):
         return f'{self.user_id}:{self.quote_id}'
     
+#api-quotes
+class Quote_api:
+    '''
+    Quote_api class to define Movie Objects
+    '''
+
+    def __init__(self,id,author,quote,permalink):
+        self.id =id
+        self.author = author
+        self.quote = quote
+        self.permalink = "http://quotes.stormconsultancy.co.uk/quotes/23" + permalink
 
 
 
