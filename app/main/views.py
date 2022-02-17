@@ -10,11 +10,12 @@ from ..request import get_quotes_api
 # Views
 @main.route('/')
 def index():
+    quotes=get_quotes_api()
 
     '''
     View root page function that returns the index page and its data
     '''
-    return render_template('index.html')
+    return render_template('index.html', quotes=quotes)
 @main.route('/login')
 def login():
 
@@ -78,23 +79,21 @@ def quote_page():
     quotes = Quote.query.all()
     user=current_user
     return render_template('quotes.html',quotes=quotes,user=user)
-@main.route('/quotes/comments/<int:quote_id>', methods=['GET','POST'])
+@main.route("/main/<int:quote_id>/comment", methods=['GET', 'POST'])
 @login_required
-def leave_comment(quote_id):
-    comment_form = CommentForm()
-    quotes= Quote.query.get(quote_id)
-    comment = Comment.query.filter_by(quote_id=quote_id).all()
-    if comment_form.validate_on_submit():
-        comments = comment_form.comment.data
-        
-        quote_id= quote_id
-        user_id = current_user._get_current_object().id
-        new_comment= Comment(comments=comments,quote_id=quote_id, user_id=user_id)
-        new_comment.save_comment()      
-        
-        return redirect(url_for('main.pitch_page',comment_form=comment_form,quote_id=quote_id))
-        
-    return render_template('comments.html',comment_form=comment_form, comment=comment,quote_id=quote_id)
+def new_comment(quote_id):
+    Quote = Quote.query.get_or_404(quote_id)
+    
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = Comment(comment=form.comment.data, fullname=form.name.data, author=current_user, quote_id = quote_id )
+        db.session.add(comment)
+        db.session.commit()
+        # comments = Comment.query.all()
+        flash('You comment has been created!', 'success')
+        return redirect(url_for('posts.post', quote_id=quote_id))
+    myquotes = Quote.query.order_by(Quote.posted_date.desc())
+    return render_template('new-comment.html', title='New Comment', form=form, legend='New Comment', myquotes=myquotes)
 
 #likes count
 

@@ -1,63 +1,42 @@
-{% extends "base.html" %}
-<!--home title-->
-{% block title %}
-Blogs
-{% endblock %}
-{% block styles %}
-<!--styles-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <!--google fonts-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Indie+Flower&display=swap" rel="stylesheet">
-    <!--fontawesome-->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-    <!--bootstrap-->
-{% endblock %}
+{% extends "bootstrap/base.html" %}
 
 {% block navbar %}
 <!--navbar-->
     {% include 'navbar.html' %}
 {% endblock %}
-<br>
-<br>
-<!--header-->
 
-
+<br>
 
 {% block content %}
 
-<div class="container">
 
-    <ul>
-        {% for quote in quote_api %}
-            <li>{{ quote_api.title}}</li>
-        {% endfor %}
-    </ul>
+
+<div class="container">
+    <div style="text-align: center; background-color: gainsboro;border-radius: 8px; padding: 5px;" class="random">
+        <h1 style="color: blue;text-decoration: underline;">View Random Quotes</h1>
+        <ul>
+            <li style="list-style-type: none;justify-content: left;"><span style="color: blue;font-weight: bold;">AUTHOR:</span> {{ quotes.author}}</li>
+            <li style="list-style-type: none;justify-content: left;"> <span style="color: blue;font-weight: bold;">QUOTE:</span>{{ quotes.quote}}</li>
+        </ul>
+    </div>
+    
+   
+    <hr>
 
 
 <h1 class="text-center" style="font-family: 'Gloria Hallelujah', cursive ; color:blue">Welcome to Blogs....</h1>
 <!--content-->
 <div class="card text-center">
 <div class="border-secondary mb-3" style="max-width: 100%;">
-    <div class="card-header">Create a Quote</div>
+    <div class="card-header">Create a Blog</div>
     <div class="card-body text-secondary">
-      <h5 class="card-title">Feel free to comment on Quotes and write a Quote</h5>
+      <h5 class="card-title">Feel free to comment on Blogs and write a Blog</h5>
       <p class="card-text">“Happiness lies in virtuous activity, and perfect happiness lies in the best activity, which is contemplative”</p>
-      <a href="/quotes"><button type="button" class="btn btn-primary"> Post A Quote</button></a>
-      
-    </div>
-    <div class="card-header">
-        <div style="justify-content: space-between; font-family: 'Indie Flower', cursive;" class="d-flex">
-            <a href="">Comment<i class="fas fa-comment" style="margin-left: 8px;"></i></a> 
-            <a href="">Like <i class="fas fa-thumbs-up " style="margin-left: 8px;"></i></a> 
-            <a href="">Dislike<i class="fas fa-thumbs-down" style="margin-left: 8px;"></i></a> 
-            <button class="btn btn-danger"> <a href=""></a> Delete</button>
-        </div>
-        
-    
+      <a href="/quotes"><button type="button" class="btn btn-primary"> Post A Blog</button></a>
     </div>
 </div>
 </div>
 </div>
+
+
 {% endblock %}

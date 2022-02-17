@@ -1,31 +1,37 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container">
-    <h1>Welcome to quotes</h1>
+    <h1>Welcome to Blogs</h1>
     <h2><a class="btn peach-gradient btn-lg text-center" href="{{url_for('main.new_quotes')}}"> Write a new pitch</a></h2>
 </div>
 
 {% for items in quotes[::-1] %}
 
 <div class="container">
-  <div class="card text-center" style="width: 45%; height: 400px; float: left; margin: 17px;">
-    <!--header-->
-    <div class="card-header">
-      <h4 class="text-sm-left"><span style="height: 50px; width: 50px; background-color: black; color: white;border-radius: 50%; padding-left: 16px; padding-top: 12px;" class="fa fa-user"></span> Posted By: {{items.author.username}}</h4>
+  <div class="post" style="background-color: lightgray;float: left; width: 45%; margin: 5px;;padding: 20px; border-radius: 5px;">
+    <div class="posted-by">
+      <h3><span style="color: blue;">Posted By: </span> {{items.author.username}}</h3>
+    </div>
+    <div class="posted-by">
+      <h3><span style="color: blue;">Blog: </span>{{items.quote}}</h3>
+    </div>
+    <div class="posted-by">
+      <h3><span style="color: blue;">Posted: </span>{{items.posted.strftime('%Y-%m-%d')}}</h3>
+    </div>
+    {% if current_user.is_authenticated %}
+    <button class="btn btn-danger">Delete</button>
+    {%endif%}
+    <div class="posted-by">
+      <div class="text-inline" style="display: flex;">
 
+      <h3><span style="color: blue;">Comments: </span>{{items.comment}}</h3>
     </div>
-      <!--body-->
-    <div class="card-body" style="height:300px;overflow-y: scroll;">
-      <h4 class="card-title">{{items.quote}}</h4>
-    </div>
-    <!--footer-->
-   
-           
-
-    </div>
-    </div>
+    {% if current_user.is_authenticated %}
+    <button class="btn btn-danger">Delete</button>
+    {%endif%}
   </div>
-</div>
+  </div>
 
+  
 {% endfor %}
 {% endblock %}

@@ -13,5 +13,6 @@ class QuoteForm(FlaskForm):
     submit = SubmitField('Submit')
 #commentform
 class CommentForm(FlaskForm):
+    username=StringField('username', validators=[InputRequired()])
     comments = TextAreaField('leave your comment below', validators=[InputRequired()])
     submit = SubmitField('Submit')
